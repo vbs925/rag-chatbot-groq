@@ -1,0 +1,198 @@
+RAG Chatbot - Quick Start Guide
+
+What is RAG?
+RAG stands for Retrieval-Augmented Generation. It's an AI technique that combines information retrieval with text generation to provide accurate, context-aware answers based on specific documents.
+
+How Does RAG Work?
+1. Document Processing: Your uploaded documents are split into smaller chunks
+2. Embedding Creation: Each chunk is converted into a vector (numerical representation)
+3. Vector Storage: Vectors are stored in a database (ChromaDB) for fast retrieval
+4. Query Processing: When you ask a question, it's also converted to a vector
+5. Similarity Search: The system finds the most relevant document chunks
+6. Answer Generation: Groq's AI reads the relevant chunks and generates an answer
+
+Key Components of This Chatbot:
+
+Groq API:
+- Ultra-fast LLM inference engine
+- Powers the AI responses
+- Uses llama-3.3-70b model by default
+- Provides accurate, contextual answers
+
+ChromaDB:
+- Open-source vector database
+- Stores document embeddings locally
+- Enables semantic search (meaning-based, not just keyword)
+- Fast and efficient for document retrieval
+
+TOON Optimization:
+- TOON (Token-Oriented Object Notation) reduces token usage
+- Saves 15-30% on API costs
+- Maintains answer quality
+- Uses compact data format instead of verbose JSON
+
+Embeddings:
+- Uses sentence-transformers/all-MiniLM-L6-v2 model
+- Converts text to 384-dimensional vectors
+- Enables semantic similarity matching
+- Runs locally on your machine
+
+Features of This Chatbot:
+
+Document Upload:
+- Supports PDF and TXT files
+- Automatic text extraction
+- Smart chunking for optimal retrieval
+- Persistent storage in ChromaDB
+
+Intelligent Q&A:
+- Ask questions in natural language
+- Get answers based on your documents
+- View source context for transparency
+- Chat history maintained during session
+
+Token Efficiency:
+- TOON format reduces token consumption
+- Lower costs per query
+- Faster response times
+- Same high-quality answers
+
+Example Questions You Can Ask:
+- What is RAG?
+- How does the vector database work?
+- Explain TOON optimization
+- What AI model does this use?
+- How are embeddings created?
+- Tell me about Groq API
+
+Technical Details:
+
+Architecture:
+- Frontend: Streamlit web interface
+- Backend: Python with LangChain
+- Vector Store: ChromaDB (local SQLite)
+- LLM: Groq API (cloud-based)
+- Embeddings: HuggingFace sentence-transformers
+
+Technology Stack:
+- Python 3.8+
+- Streamlit for UI
+- LangChain for RAG pipeline
+- ChromaDB for vector storage
+- Groq API for LLM inference
+- sentence-transformers for embeddings
+- toons library for token optimization
+
+Benefits of RAG:
+
+Accuracy:
+- Answers based on your specific documents
+- No hallucinations about your data
+- Cited sources for verification
+- Context-aware responses
+
+Privacy:
+- Documents stored locally
+- Only queries sent to API
+- No training on your data
+- Full control over information
+
+Flexibility:
+- Works with any text documents
+- Multiple file format support
+- Easy to update with new documents
+- Scalable for large document sets
+
+Cost-Effective:
+- TOON optimization reduces costs
+- Only pay for what you use
+- Local embeddings save money
+- Efficient token usage
+
+Best Practices:
+
+Document Preparation:
+- Use clear, well-formatted documents
+- Remove unnecessary formatting
+- Ensure text is readable
+- Keep documents focused
+
+Asking Questions:
+- Be specific in your queries
+- Ask one thing at a time
+- Reference document topics
+- Use natural language
+
+Performance Tips:
+- Upload relevant documents only
+- Keep documents reasonably sized
+- Clear old chats when needed
+- Check source context for accuracy
+
+Getting Started:
+1. Enter your Groq API key in the sidebar
+2. Upload a PDF or TXT document
+3. Click "Process Document"
+4. Start asking questions!
+
+Advanced Features:
+
+Source Context:
+- View exact text used for answers
+- Verify information accuracy
+- Understand AI reasoning
+- Check multiple sources
+
+Chat History:
+- Maintains conversation context
+- Clear history when needed
+- Session-based storage
+- Smooth conversation flow
+
+Error Handling:
+- Graceful error messages
+- Retry functionality
+- Input validation
+- User-friendly feedback
+
+Troubleshooting:
+
+If answers seem wrong:
+- Check source context
+- Verify document upload
+- Try rephrasing question
+- Ensure document relevance
+
+If processing fails:
+- Check file format (PDF/TXT)
+- Verify file isn't corrupted
+- Try smaller file
+- Check API key
+
+For better results:
+- Ask specific questions
+- Reference document topics
+- Use complete sentences
+- Provide context in queries
+
+About the Technology:
+
+Groq:
+Groq provides the fastest LLM inference in the industry. Their custom silicon chips enable real-time AI responses at a fraction of the cost of traditional GPU-based solutions.
+
+ChromaDB:
+An AI-native open-source embedding database. It makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs.
+
+TOON Format:
+A token-efficient data serialization format designed specifically for LLM contexts. It reduces token usage by 30-60% compared to JSON while maintaining full data fidelity.
+
+LangChain:
+A framework for developing applications powered by language models. It provides tools for document loading, text splitting, embeddings, vector stores, and chains.
+
+Next Steps:
+- Try uploading your own documents
+- Experiment with different questions
+- Check the source context feature
+- Explore token savings with TOON
+
+This template document demonstrates the RAG chatbot's capabilities. Upload your own documents to chat with your specific content!
