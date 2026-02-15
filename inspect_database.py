@@ -4,6 +4,7 @@ This shows you what documents are stored and allows querying.
 """
 
 import sys
+import os
 import argparse
 from pathlib import Path
 from langchain_community.vectorstores import Chroma
