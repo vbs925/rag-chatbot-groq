@@ -35,7 +35,7 @@ sample_docs = [
     )
 ]
 
-print("\n📄 Sample Documents (3 chunks):")
+print("\nSample Documents (3 chunks):")
 for i, doc in enumerate(sample_docs, 1):
     print(f"  {i}. {doc.page_content[:60]}...")
 
@@ -48,7 +48,7 @@ print("=" * 80)
 rag_standard = RAGChain(groq_api_key, use_toon=False)
 standard_context = rag_standard.format_docs(sample_docs)
 
-print("\n📝 STANDARD FORMAT (use_toon=False):")
+print("\nSTANDARD FORMAT (use_toon=False):")
 print("-" * 80)
 print(standard_context)
 print("-" * 80)
@@ -58,7 +58,7 @@ print(f"Length: {len(standard_context)} characters (~{len(standard_context)//4} 
 rag_toon = RAGChain(groq_api_key, use_toon=True)
 toon_context = rag_toon.format_docs(sample_docs)
 
-print("\n🎯 TOON FORMAT (use_toon=True) ← THIS IS WHAT GROQ RECEIVES:")
+print("\nTOON FORMAT (use_toon=True) ← THIS IS WHAT GROQ RECEIVES:")
 print("-" * 80)
 print(toon_context)
 print("-" * 80)
@@ -69,7 +69,7 @@ char_saved = len(standard_context) - len(toon_context)
 token_saved = char_saved // 4
 savings_pct = (char_saved / len(standard_context)) * 100
 
-print("\n💰 TOKEN SAVINGS:")
+print("\nTOKEN SAVINGS:")
 print(f"  Characters saved: {char_saved}")
 print(f"  Tokens saved:     ~{token_saved}")
 print(f"  Savings:          {savings_pct:.1f}%")
@@ -85,5 +85,5 @@ full_prompt = rag_toon.prompt_template.format(context=toon_context, question=que
 print(full_prompt)
 print("=" * 80)
 
-print("\n✅ This is exactly what Groq receives when you ask a question!")
+print("\nThis is exactly what Groq receives when you ask a question!")
 print("   The TOON format makes it more compact, saving you tokens and money.")

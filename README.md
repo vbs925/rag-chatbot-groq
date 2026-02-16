@@ -1,17 +1,17 @@
-# 🤖 RAG Chatbot with Groq API
+# RAG Chatbot with Groq API
 
 A powerful document-based chatbot using **Retrieval Augmented Generation (RAG)** that allows you to upload documents and have intelligent conversations about their content using **Groq's lightning-fast LLM API**.
 
-## ✨ Features
+## Features
 
-- 📄 **Document Upload**: Support for PDF and TXT files
-- 🔍 **Semantic Search**: ChromaDB vector database for intelligent context retrieval
-- ⚡ **Fast Responses**: Powered by Groq's optimized LLM infrastructure
-- 💬 **Chat Interface**: Clean Streamlit-based UI with chat history
-- 🎯 **Context-Aware**: Answers questions based on your document content
-- 📚 **Source Citations**: View the exact document sections used for each answer
+- **Document Upload**: Support for PDF and TXT files
+- **Semantic Search**: ChromaDB vector database for intelligent context retrieval
+- **Fast Responses**: Powered by Groq's optimized LLM infrastructure
+- **Chat Interface**: Clean Streamlit-based UI with chat history
+- **Context-Aware**: Answers questions based on your document content
+- **Source Citations**: View the exact document sections used for each answer
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Streamlit** - Web interface
 - **LangChain** - RAG orchestration framework
@@ -20,12 +20,12 @@ A powerful document-based chatbot using **Retrieval Augmented Generation (RAG)**
 - **Sentence Transformers** - Text embeddings
 - **PyPDF2** - PDF document processing
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Python 3.8 or higher
 - Groq API key ([Get it here](https://console.groq.com/))
 
-## 🚀 Installation
+## Installation
 
 ### Step 1: Clone or Download the Project
 
@@ -60,7 +60,7 @@ Edit `.env` and add your Groq API key:
 GROQ_API_KEY=your_actual_groq_api_key_here
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Step 1: Start the Application
 
@@ -85,7 +85,7 @@ Ask questions about your document in the chat interface:
 - "What does it say about [specific topic]?"
 - "Explain [concept] in detail"
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 rag-chatbot-groq/
@@ -102,7 +102,7 @@ rag-chatbot-groq/
 └── uploads/                   # Temporary file storage (auto-created)
 ```
 
-## ⚙️ Configuration Options
+## Configuration Options
 
 ### Available Groq Models
 
@@ -129,7 +129,7 @@ Adjust how many relevant chunks to retrieve in `app.py`:
 retriever = vector_store_manager.get_retriever(k=4)  # Retrieve top 4 chunks
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "No API key provided" Error
 
@@ -153,13 +153,13 @@ retriever = vector_store_manager.get_retriever(k=4)  # Retrieve top 4 chunks
 - Make sure all dependencies are installed: `pip install -r requirements.txt`
 - Activate your virtual environment before running
 
-## 🔒 Security Notes
+## Security Notes
 
 - Never commit your `.env` file or expose your API key
 - The `.gitignore` file is configured to exclude sensitive files
 - API keys entered in the sidebar are stored only in session state
 
-## 📝 How It Works
+## How It Works
 
 1. **Document Upload**: User uploads a PDF or TXT file
 2. **Text Extraction**: Content is extracted from the document
@@ -171,7 +171,7 @@ retriever = vector_store_manager.get_retriever(k=4)  # Retrieve top 4 chunks
 8. **Generation**: Groq LLM generates an answer using the retrieved context
 9. **Display**: Answer is shown with source citations
 
-## 🎓 Next Steps
+## Next Steps
 
 Want to enhance this chatbot? Try:
 
@@ -181,11 +181,11 @@ Want to enhance this chatbot? Try:
 - Deploy to cloud platforms (Streamlit Cloud, Heroku, etc.)
 - Add conversation export functionality
 
-## 📄 License
+## License
 
 This project is open source and available for educational and commercial use.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Groq** for providing blazing-fast LLM inference
 - **LangChain** for the RAG framework
@@ -193,4 +193,4 @@ This project is open source and available for educational and commercial use.
 
 ---
 
-**Built with ❤️ using RAG and Groq API**
+**Built with RAG and Groq API**

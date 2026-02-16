@@ -1,0 +1,28 @@
+{
+  "name": "rag-chatbot-groq",
+  "version": "1.0.0",
+  "description": "A powerful document-based chatbot using **Retrieval Augmented Generation (RAG)** that allows you to upload documents and have intelligent conversations about their content using **Groq's lightning-fast LLM API**.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./src/output.css",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbs925/rag-chatbot-groq.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vbs925/rag-chatbot-groq/issues"
+  },
+  "homepage": "https://github.com/vbs925/rag-chatbot-groq#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  }
+}
