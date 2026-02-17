@@ -7,7 +7,23 @@ import tempfile
 import time
 from pathlib import Path
 import base64
+import base64
 from dotenv import load_dotenv
+import nltk
+
+# Ensure NLTK data path includes user's home directory
+nltk.data.path.append(os.path.expanduser("~/nltk_data"))
+
+# Download required NLTK data if missing
+try:
+    nltk.data.find('tokenizers/punkt_tab')
+except LookupError:
+    nltk.download('punkt_tab')
+
+try:
+    nltk.data.find('taggers/averaged_perceptron_tagger')
+except LookupError:
+    nltk.download('averaged_perceptron_tagger')
 
 from src.document_processor import DocumentProcessor
 from src.embeddings import EmbeddingManager
