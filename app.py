@@ -11,9 +11,6 @@ import base64
 from dotenv import load_dotenv
 import nltk
 
-# Add backend to path so we can import from src
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'backend')))
-
 # Ensure NLTK data path includes user's home directory
 nltk.data.path.append(os.path.expanduser("~/nltk_data"))
 
@@ -32,11 +29,11 @@ from src.document_processor import DocumentProcessor
 from src.embeddings import EmbeddingManager
 from src.vector_store import VectorStoreManager
 from src.rag_chain import RAGChain
-from styles import get_custom_css
+from src.styles import get_custom_css
 
 
 # Load environment variables
-load_dotenv(dotenv_path="../backend/.env")
+load_dotenv()
 
 # Page configuration
 st.set_page_config(
@@ -82,7 +79,7 @@ def initialize_components(groq_api_key: str, persist_directory: str = None):
 
 def load_default_document(groq_api_key: str):
     """Load default template document if no document is loaded."""
-    default_doc_path = Path("../backend/default_document.txt")
+    default_doc_path = Path("default_document.txt")
     
     if not default_doc_path.exists():
         return False
@@ -124,7 +121,7 @@ def process_uploaded_files(uploaded_files, groq_api_key: str):
         return
         
     # Save uploaded files temporarily
-    upload_dir = Path("../backend/uploads")
+    upload_dir = Path("uploads")
     upload_dir.mkdir(exist_ok=True)
     
     all_chunks = []
