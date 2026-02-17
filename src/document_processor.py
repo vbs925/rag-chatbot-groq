@@ -3,7 +3,7 @@
 from typing import List
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2txtLoader, UnstructuredPowerPointLoader
 from langchain_core.documents import Document
 
 
@@ -46,6 +46,10 @@ class DocumentProcessor:
             loader = PyPDFLoader(file_path)
         elif file_extension == '.txt':
             loader = TextLoader(file_path)
+        elif file_extension == '.docx':
+            loader = Docx2txtLoader(file_path)
+        elif file_extension == '.pptx':
+            loader = UnstructuredPowerPointLoader(file_path)
         else:
             raise ValueError(f"Unsupported file type: {file_extension}")
         

@@ -15,6 +15,7 @@ from src.vector_store import VectorStoreManager
 from src.rag_chain import RAGChain
 from src.styles import get_custom_css
 
+
 # Load environment variables
 load_dotenv()
 
@@ -185,105 +186,34 @@ def main():
     """Main application with Dashboard Layout."""
     
     # --------------------------------------------------------------------------
-    # Top Navigation Bar
     # --------------------------------------------------------------------------
     
-    # Logo Logic
+    # --------------------------------------------------------------------------
+    
+    # Custom Header with Logo
     logo_path = Path("assets/logo.png")
+    logo_html = ""
     if logo_path.exists():
         try:
             with open(logo_path, "rb") as f:
                 encoded_string = base64.b64encode(f.read()).decode()
-            navbar_right = f'<img src="data:image/png;base64,{encoded_string}" class="navbar-logo-img" alt="Logo">'
-        except Exception:
-            navbar_right = '<div class="user-profile">VB</div>'
-    else:
-        navbar_right = '<div class="user-profile">VB</div>'
-
-    st.markdown(f"""
-        <div class="navbar">
-            <div class="navbar-brand">
-                <div class="navbar-icon">
-                    🤖
-                </div>
-                <span>RAG Chatbot</span>
-            </div>
-            {navbar_right}
-        </div>
-    """, unsafe_allow_html=True)
-
-    # --------------------------------------------------------------------------
-    # Metrics Row
-    # --------------------------------------------------------------------------
-    
-    # Calculate real metrics
-    doc_count = 0
-    if st.session_state.vector_store_manager and st.session_state.vector_store_manager.vector_store:
-        try:
-            doc_count = st.session_state.vector_store_manager.vector_store._collection.count()
+            logo_html = f'<img src="data:image/png;base64,{encoded_string}" class="header-logo" alt="Logo">'
         except:
             pass
             
-    status_class = "status-active" if st.session_state.vector_store_ready else "status-waiting"
-    status_text = "Active" if st.session_state.vector_store_ready else "Waiting"
-
-    m1, m2, m3, m4 = st.columns(4)
-    
-    with m1:
-        st.markdown(f"""
-            <div class="metric-card">
-                <div style="display: flex; justify-content: space-between; align-items: start;">
-                    <div>
-                        <div class="metric-title">System Status</div>
-                        <div class="metric-value">Online</div>
-                    </div>
-                    <div class="metric-status {status_class}">{status_text}</div>
-                </div>
+    st.markdown(f"""
+        <div class="custom-header">
+            <div class="header-content">
+                <span style="font-size: 2.5rem;">🤖</span>
+                <div class="header-title">RAG Chatbot with Groq</div>
             </div>
-        """, unsafe_allow_html=True)
-        
-    with m2:
-        st.markdown(f"""
-            <div class="metric-card">
-                <div class="metric-title">Documents Indexed</div>
-                <div class="metric-value">{doc_count}</div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    with m3:
-        st.markdown("""
-            <div class="metric-card">
-                <div class="metric-title">Est. Cost Savings</div>
-                <div class="metric-value">~28%</div>
-            </div>
-        """, unsafe_allow_html=True)
-
-    with m4:
-        st.markdown("""
-            <div class="metric-card">
-                <div class="metric-title">Active Model</div>
-                <div class="metric-value" style="font-size: 1.25rem;">Llama3-70b</div>
-            </div>
-        """, unsafe_allow_html=True)
+            {logo_html}
+        </div>
+    """, unsafe_allow_html=True)
     
     st.markdown('<div style="margin-bottom: 2rem;"></div>', unsafe_allow_html=True)
 
-    # --------------------------------------------------------------------------
-    # Main Content Area
-    # --------------------------------------------------------------------------
-    
-    st.markdown("""
-        <div class="chat-header">
-            <div class="chat-title">AI Chat Interface</div>
-            <div style="font-size: 0.8rem; color: #6B7280; background: #F3F4F6; padding: 2px 8px; border-radius: 4px;">
-                Session Active
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
 
-    # The actual chat history logic follows...
-
-    
     # Sidebar for configuration
     with st.sidebar:
         st.header("Configuration")
@@ -293,7 +223,7 @@ def main():
             "Groq API Key",
             type="password",
             value=os.getenv("GROQ_API_KEY", ""),
-            help="Enter your Groq API key"
+            help="Enter your Groq API key. It is used only for this session."
         )
         
         if not groq_api_key:
@@ -305,100 +235,75 @@ def main():
         if not st.session_state.vector_store_ready and groq_api_key:
             with st.spinner("Loading default template document..."):
                 if load_default_document(groq_api_key):
-                    st.success("Default template loaded!")
+                    st.success("Default template loaded and indexed!")
         
         st.divider()
         
         # File upload
-        st.header("Upload Document(s)")
+        st.subheader("Documents")
         uploaded_files = st.file_uploader(
-            "Choose files",
-            type=['pdf', 'txt'],
+            "Upload documents",
+            type=['pdf', 'txt', 'docx', 'pptx'],
             accept_multiple_files=True,
-            help="Upload one or more PDF or TXT files to chat with"
+            help="Upload one or more PDF, TXT, DOCX, or PPTX files to index into the vector store."
         )
         
         if uploaded_files:
-            if st.button("Process Documents", type="primary"):
-                st.session_state.using_default = False
-                process_uploaded_files(uploaded_files, groq_api_key)
+            st.write(f"Selected: {len(uploaded_files)} files")
+
+        can_process = bool(uploaded_files)
+        if st.button(
+            "Index documents",
+            type="primary",
+            disabled=not can_process,
+        ):
+            st.session_state.using_default = False
+            process_uploaded_files(uploaded_files, groq_api_key)
         
         st.divider()
         
-        # Debug Information
-        with st.expander("Debug Information"):
-            if st.session_state.persist_dir:
-                st.markdown(f"**Database Path:**\n`{st.session_state.persist_dir}`")
-                
-                # Show document count if vector store is ready
-                if st.session_state.vector_store_manager and st.session_state.vector_store_manager.vector_store:
-                    try:
-                        count = st.session_state.vector_store_manager.vector_store._collection.count()
-                        st.markdown(f"**Document Count:** {count}")
-                    except:
-                        st.markdown("**Document Count:** Unknown")
-            else:
-                st.markdown("Database not initialized yet.")
-        
-        # Status indicator
+        # Status & Debug
+        st.subheader("Status")
         if st.session_state.vector_store_ready:
+            st.success("System Ready")
             if st.session_state.using_default:
-                st.success("Using default template document")
-                st.info("Upload your own document to replace it")
-                
-                # Explain what's in the default template
-                with st.expander("What's in the default template?"):
-                    st.markdown("""
-                    **Sample Topics Included:**
-                    - What is RAG (Retrieval-Augmented Generation)
-                    - How this chatbot works
-                    - Groq API explanation
-                    - ChromaDB vector database
-                    - TOON token optimization
-                    - Technical architecture
-                    - Best practices & tips
-                    
-                    **Try asking:**
-                    - "What is RAG?"
-                    - "How does TOON save tokens?"
-                    - "Explain the vector database"
-                    """)
-            else:
-                st.success("Document loaded and ready!")
+                st.info("Using default template.")
         else:
-            st.info("Upload and process a document to start chatting")
-        
+            st.info("Waiting for documents.")
+            
         # Clear chat button
-        if st.button("Clear Chat History"):
+        if st.button("Clear chat history"):
             st.session_state.messages = []
             st.rerun()
     
+    # --------------------------------------------------------------------------
+    # Chat Interface
+    # --------------------------------------------------------------------------
+    
+    # Custom Container for Chat
+    chat_container_placeholder = st.empty()
+    
+    with chat_container_placeholder.container():
+        st.markdown(
+            """
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div>AI Chat Assistant</div>
+                    <div style="font-size: 0.8rem; font-weight: normal; color: #64748B;">Ready to help</div>
+                </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     # Main chat interface
     if not st.session_state.vector_store_ready:
-        st.info("Upload documents from the sidebar to get started!")
-        
-        # Display example questions
-        st.subheader("Example Questions You Can Ask:")
-        st.markdown("""
-        - What are these documents about?
-        - Summarize the main points across all files
-        - Compare [topic] between the documents
-        - Can you explain [concept] from the documents?
-        """)
+        st.info("Upload a document to start chatting.")
     else:
         # Show info banner and buttons if using default template
         if st.session_state.using_default and len(st.session_state.messages) == 0:
-            st.info("""
-            **Using Default Template Document**
-            
-            This template contains information about RAG, AI chatbots, Groq API, ChromaDB, 
-            and TOON optimization. Ask questions to learn how this chatbot works!
-            
-            **Upload your own PDF or TXT file to chat with your documents.**
-            """)
+            st.info("Using Default Template Document. process a document to override.")
             
             # Sample question buttons
-            st.markdown("### Try These Sample Questions:")
             col1, col2 = st.columns(2)
             
             with col1:
@@ -411,8 +316,6 @@ def main():
                     st.session_state.pending_query = "How does TOON save tokens?"
                     st.rerun()
             
-            st.divider()
-        
         # Process pending query from button click FIRST
         if st.session_state.pending_query:
             query = st.session_state.pending_query
@@ -433,6 +336,16 @@ def main():
             st.rerun()
         
         # Display chat messages
+        if not st.session_state.messages:
+            st.markdown(
+                """
+                <div style="display: flex; justify-content: center; align-items: center; height: 50vh; color: #6B7280; font-size: 1.2rem; text-align: center;">
+                    Upload a document and ask questions to get started
+                </div>
+                """, 
+                unsafe_allow_html=True
+            )
+            
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
@@ -468,6 +381,9 @@ def main():
                         error_msg = f"Error: {str(e)}"
                         st.error(error_msg)
                         st.session_state.messages.append({"role": "assistant", "content": error_msg})
+
+        # Close chat container
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
