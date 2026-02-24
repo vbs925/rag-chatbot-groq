@@ -60,6 +60,33 @@ Edit `.env` and add your Groq API key:
 GROQ_API_KEY=your_actual_groq_api_key_here
 ```
 
+## Running with Docker
+
+You can also run the application using Docker.
+
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Step 1: Build and Run
+
+```bash
+docker-compose up --build
+```
+
+The application will be available at `http://localhost:8501`.
+
+### Step 2: Stop the Application
+
+Pres 'Ctrl+C' to stop the container.
+
+To stop and remove containers:
+
+```bash
+docker-compose down
+```
+
 ## Usage
 
 ### Step 1: Start the Application

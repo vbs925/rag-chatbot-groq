@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  rag-chatbot:
+    build: .
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - nltk_data:/usr/share/nltk_data
+      # Mount a volume for chroma persistence if needed, though the app uses tempfile by default in some places
+      # If we want persistence across restarts, we should probably configure a persistent path in .env or app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  nltk_data:
